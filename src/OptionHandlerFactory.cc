@@ -99,15 +99,13 @@ std::vector<OptionHandler*> OptionHandlerFactory::createOptionHandlers()
     op->setChangeOptionForReserved(true);
     handlers.push_back(op);
   }
-#  if defined(HAVE_ARES_SET_SERVERS) && defined(HAVE_ARES_ADDR_NODE)
   {
     OptionHandler* op(new DefaultOptionHandler(
         PREF_ASYNC_DNS_SERVER, TEXT_ASYNC_DNS_SERVER, NO_DEFAULT_VALUE));
     op->addTag(TAG_ADVANCED);
     handlers.push_back(op);
   }
-#  endif // HAVE_ARES_SET_SERVERS && HAVE_ARES_ADDR_NODE
-#endif   // ENABLE_ASYNC_DNS
+#endif // ENABLE_ASYNC_DNS
   {
     OptionHandler* op(new BooleanOptionHandler(
         PREF_AUTO_FILE_RENAMING, TEXT_AUTO_FILE_RENAMING, A2_V_TRUE,
@@ -1199,6 +1197,16 @@ std::vector<OptionHandler*> OptionHandlerFactory::createOptionHandlers()
   {
     OptionHandler* op(new BooleanOptionHandler(
         PREF_USE_HEAD, TEXT_USE_HEAD, A2_V_FALSE, OptionHandler::OPT_ARG));
+    op->addTag(TAG_HTTP);
+    op->setInitialOption(true);
+    op->setChangeGlobalOption(true);
+    op->setChangeOptionForReserved(true);
+    handlers.push_back(op);
+  }
+  {
+    OptionHandler* op(new BooleanOptionHandler(
+        PREF_NO_WANT_DIGEST_HEADER, TEXT_NO_WANT_DIGEST_HEADER, A2_V_FALSE,
+        OptionHandler::OPT_ARG));
     op->addTag(TAG_HTTP);
     op->setInitialOption(true);
     op->setChangeGlobalOption(true);
